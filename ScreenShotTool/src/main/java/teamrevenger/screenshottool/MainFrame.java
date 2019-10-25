@@ -7,6 +7,8 @@ package teamrevenger.screenshottool;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Dialog.ModalityType;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -236,6 +238,11 @@ public class MainFrame extends javax.swing.JFrame {
         FileMenu.add(Save);
 
         Exit.setText("Exit");
+        Exit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExitActionPerformed(evt);
+            }
+        });
         FileMenu.add(Exit);
 
         MainMenuBar.add(FileMenu);
@@ -310,7 +317,16 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_FileMenuActionPerformed
 
-    
+    private void ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitActionPerformed
+        // TODO add your handling code here:
+        int reply = JOptionPane.showConfirmDialog(null,
+                                "Are you sure you want to close this window?", "Close Window?",
+                                JOptionPane.YES_NO_OPTION);
+                        if (reply == JOptionPane.YES_OPTION)
+                            System.exit(0);
+    }//GEN-LAST:event_ExitActionPerformed
+
+    // Close JFrame from exit button
     public void drawScreenShot(Image img){
         try{
 //            String size = img.getWidth(null) + "x" + img.getHeight(null);
@@ -371,8 +387,20 @@ public class MainFrame extends javax.swing.JFrame {
                 // create main frame
                 MainFrame frame = new MainFrame();
                 //center Main Frame
-                frame.setTitle("Screen Shot Tool"); //set title
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setTitle("Screen Shot Tool"); //set title                
+                
+                frame.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                        int reply = JOptionPane.showConfirmDialog(null,
+                                "Are you sure you want to close this window?", "Close Window?",
+                                JOptionPane.YES_NO_OPTION);
+                        if (reply == JOptionPane.YES_OPTION)
+                            System.exit(0);
+                    }
+                });
+                
+                frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                 frame.setLocationRelativeTo(null); // this method display the JFrame to center position of a screen                
                 frame.setVisible(true); // set visible;
                 
