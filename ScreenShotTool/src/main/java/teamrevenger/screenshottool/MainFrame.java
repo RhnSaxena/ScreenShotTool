@@ -7,6 +7,7 @@ package teamrevenger.screenshottool;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -27,6 +28,7 @@ public class MainFrame extends javax.swing.JFrame {
      */
     
     private boolean loaded = false;
+    private String lastOpened = "";
     public ScreenShot screenShot = new ScreenShot();
     public MainFrame() {
         initComponents();
@@ -41,33 +43,22 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jPanel2 = new javax.swing.JPanel();
+        fileChooser = new javax.swing.JFileChooser();
         ParentPanel = new javax.swing.JPanel();
         ToolBarPanel = new javax.swing.JPanel();
         captureButton = new javax.swing.JButton();
         Thumbnail = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        ThumbnailcrollPanel = new javax.swing.JScrollPane();
         Share = new javax.swing.JPanel();
         MiddlePanel = new javax.swing.JPanel();
         ImageContainerPanel = new javax.swing.JPanel();
         ImageLabel = new javax.swing.JLabel();
         MainMenuBar = new javax.swing.JMenuBar();
         FileMenu = new javax.swing.JMenu();
+        Open = new javax.swing.JMenuItem();
+        Save = new javax.swing.JMenuItem();
+        Exit = new javax.swing.JMenuItem();
         EditMenu = new javax.swing.JMenu();
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(10, 0, 102));
@@ -114,12 +105,29 @@ public class MainFrame extends javax.swing.JFrame {
         Thumbnail.setLayout(ThumbnailLayout);
         ThumbnailLayout.setHorizontalGroup(
             ThumbnailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+            .addComponent(ThumbnailcrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
         );
         ThumbnailLayout.setVerticalGroup(
             ThumbnailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(ThumbnailcrollPanel)
         );
+
+        File folder = new File("./");
+        File[] listOfFiles = folder.listFiles();
+
+        for (int i = 0; i < listOfFiles.length; i++) {
+            if (listOfFiles[i].isFile()) {
+                ImageLabel = new javax.swing.JLabel();
+                ImageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+                ImageLabel.setMaximumSize(new java.awt.Dimension(200, 200));
+                ImageLabel.setMinimumSize(new java.awt.Dimension(200, 200));
+                ThumbnailcrollPanel.add(ImageLabel);
+                System.out.println("Thumbnail Loaded");
+            }
+            //    else if (listOfFiles[i].isDirectory()) {
+                //    System.out.println("Directory " + listOfFiles[i].getName());
+                //  }
+        }
 
         javax.swing.GroupLayout ShareLayout = new javax.swing.GroupLayout(Share);
         Share.setLayout(ShareLayout);
@@ -136,6 +144,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         ImageContainerPanel.setBackground(new java.awt.Color(51, 51, 255));
 
+        ImageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         ImageLabel.setMaximumSize(new java.awt.Dimension(400, 400));
         ImageLabel.setMinimumSize(new java.awt.Dimension(200, 200));
 
@@ -173,19 +182,6 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        //try {
-            //    Image image = ImageIO.read(new File("resources/s1.jpg"));
-            //    System.out.println("Center Image Fetched");
-            //    g.drawImage(image, 0, 0, image.getWidth() /2, image.getHeight()/2,ImageContainerPanel);
-            //    ImageContainerPanel.paintComponents(image.getGraphics());
-            //} catch (IOException ex) {
-            // handle exception...
-            //}
-
-        //ImagePanel IPanel = new ImagePanel("resources/s1.jpg");
-        //ImageContainerPanel.add(IPanel);
-        //IPanel.paintComponent(IPanel.getGraphics());
-
         javax.swing.GroupLayout ParentPanelLayout = new javax.swing.GroupLayout(ParentPanel);
         ParentPanel.setLayout(ParentPanelLayout);
         ParentPanelLayout.setHorizontalGroup(
@@ -213,6 +209,35 @@ public class MainFrame extends javax.swing.JFrame {
         );
 
         FileMenu.setText("File");
+        FileMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FileMenuActionPerformed(evt);
+            }
+        });
+
+        Open.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        Open.setText("Open");
+        Open.setBorderPainted(true);
+        Open.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        Open.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OpenActionPerformed(evt);
+            }
+        });
+        FileMenu.add(Open);
+
+        Save.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        Save.setText("Save");
+        Save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SaveActionPerformed(evt);
+            }
+        });
+        FileMenu.add(Save);
+
+        Exit.setText("Exit");
+        FileMenu.add(Exit);
+
         MainMenuBar.add(FileMenu);
 
         EditMenu.setText("Edit");
@@ -239,11 +264,9 @@ public class MainFrame extends javax.swing.JFrame {
         setExtendedState(JFrame.ICONIFIED);
         screenShot.takeScreenShot();
         this.loaded = true;
-        String format = "jpg";
-        String fileName = "screen." + format;
         try {
             Image img;
-            img = this.screenShot.getScreenShot(fileName);
+            img = this.screenShot.getScreenShot(this.screenShot.getLastName());
             this.drawScreenShot(img);
         } catch (IOException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -260,15 +283,42 @@ public class MainFrame extends javax.swing.JFrame {
             this.resizeScreenShot(str);
     }//GEN-LAST:event_formComponentResized
 
+    private void OpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenActionPerformed
+        // TODO add your handling code here:
+        int returnVal = fileChooser.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            var file = fileChooser.getSelectedFile();
+            Image img;
+            try {
+                screenShot.setLastScreenShotName(file.getAbsolutePath());
+                img = screenShot.getScreenShot(file.getAbsolutePath());
+                this.drawScreenShot(img);
+            } catch (IOException ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("File Opened" + file.getAbsolutePath());
+        } else {
+            System.out.println("File access cancelled by user.");
+        }
+    }//GEN-LAST:event_OpenActionPerformed
+
+    private void SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SaveActionPerformed
+
+    private void FileMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FileMenuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_FileMenuActionPerformed
+
     
     public void drawScreenShot(Image img){
         try{
-            String size = img.getWidth(null) + "x" + img.getHeight(null);
+//            String size = img.getWidth(null) + "x" + img.getHeight(null);
             float ratio =  (float)img.getWidth(null)/(float)img.getHeight(null);
-            Image newImage = img.getScaledInstance((int) (this.getWidth()-400*ratio), (int) (this.getHeight()-400), Image.SCALE_DEFAULT);
+            Image newImage = img.getScaledInstance((int) ((this.getWidth()-400)), (int) ((this.getWidth()-400)/ratio), Image.SCALE_DEFAULT);
 
             ImageLabel.setIcon(new ImageIcon(newImage));
-            ImageLabel.setText(size);
+//            ImageLabel.setText(size);
             System.out.println("Image fetched");
         }catch(Exception ex){
             System.out.println(ex);
@@ -278,12 +328,12 @@ public class MainFrame extends javax.swing.JFrame {
     void resizeScreenShot(String name){
         try{
             Image img = this.screenShot.getScreenShot(name);
-            String size = img.getWidth(null) + "x" + img.getHeight(null);
+//            String size = img.getWidth(null) + "x" + img.getHeight(null);
             float ratio =  (float)img.getWidth(null)/(float)img.getHeight(null);
             Image newImage = img.getScaledInstance(this.getWidth() - 400 , (int) ((this.getWidth() - 400)/ratio), Image.SCALE_DEFAULT);
             this.ImageLabel.setIcon(new ImageIcon(newImage));
-            this.ImageLabel.setText(size);
-            System.out.println("Image fetched");
+//            this.ImageLabel.setText(size);
+            System.out.println("Image Resized");
         }catch(IOException ex){
             System.out.println(ex);
         }
@@ -332,18 +382,20 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu EditMenu;
+    private javax.swing.JMenuItem Exit;
     private javax.swing.JMenu FileMenu;
     private javax.swing.JPanel ImageContainerPanel;
     private javax.swing.JLabel ImageLabel;
     private javax.swing.JMenuBar MainMenuBar;
     private javax.swing.JPanel MiddlePanel;
+    private javax.swing.JMenuItem Open;
     private javax.swing.JPanel ParentPanel;
+    private javax.swing.JMenuItem Save;
     private javax.swing.JPanel Share;
     private javax.swing.JPanel Thumbnail;
+    private javax.swing.JScrollPane ThumbnailcrollPanel;
     private javax.swing.JPanel ToolBarPanel;
     private javax.swing.JButton captureButton;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JFileChooser fileChooser;
     // End of variables declaration//GEN-END:variables
 }

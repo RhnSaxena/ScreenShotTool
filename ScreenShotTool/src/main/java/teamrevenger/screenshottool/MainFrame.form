@@ -2,42 +2,50 @@
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
-    <Component class="javax.swing.JComboBox" name="jComboBox1">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
-          </StringArray>
-        </Property>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-      </AuxValues>
+    <Component class="javax.swing.JFileChooser" name="fileChooser">
     </Component>
-    <Container class="javax.swing.JPanel" name="jPanel2">
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="100" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="100" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-      </Layout>
-    </Container>
     <Menu class="javax.swing.JMenuBar" name="MainMenuBar">
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="FileMenu">
           <Properties>
             <Property name="text" type="java.lang.String" value="File"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="FileMenuActionPerformed"/>
+          </Events>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="Open">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+O"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Open"/>
+                <Property name="borderPainted" type="boolean" value="true"/>
+                <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                  <Color id="Default Cursor"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="OpenActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="Save">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+S"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Save"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SaveActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="Exit">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Exit"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="EditMenu">
           <Properties>
@@ -165,17 +173,20 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane1" alignment="0" pref="150" max="32767" attributes="0"/>
+                  <Component id="ThumbnailcrollPanel" alignment="0" pref="150" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
+                  <Component id="ThumbnailcrollPanel" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+            <Container class="javax.swing.JScrollPane" name="ThumbnailcrollPanel">
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="File folder = new File(&quot;./&quot;);&#xa;File[] listOfFiles = folder.listFiles();&#xa;&#xa;for (int i = 0; i &lt; listOfFiles.length; i++) {&#xa;  if (listOfFiles[i].isFile()) {&#xa;    ImageLabel = new javax.swing.JLabel();&#xa;    ImageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);&#xa;    ImageLabel.setMaximumSize(new java.awt.Dimension(200, 200));&#xa;    ImageLabel.setMinimumSize(new java.awt.Dimension(200, 200));&#xa;    ThumbnailcrollPanel.add(ImageLabel);&#xa;    System.out.println(&quot;Thumbnail Loaded&quot;);&#xa;  }&#xa;//    else if (listOfFiles[i].isDirectory()) {&#xa;//    System.out.println(&quot;Directory &quot; + listOfFiles[i].getName());&#xa;//  }&#xa;}"/>
+              </AuxValues>
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
             </Container>
@@ -230,9 +241,6 @@
                   <Color blue="ff" green="33" red="33" type="rgb"/>
                 </Property>
               </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="//try {                &#xa;//    Image image = ImageIO.read(new File(&quot;resources/s1.jpg&quot;));&#xa;//    System.out.println(&quot;Center Image Fetched&quot;);&#xa;//    g.drawImage(image, 0, 0, image.getWidth() /2, image.getHeight()/2,ImageContainerPanel);&#xa;//    ImageContainerPanel.paintComponents(image.getGraphics());&#xa;//} catch (IOException ex) {&#xa;  // handle exception...&#xa;//}&#xa;&#xa;//ImagePanel IPanel = new ImagePanel(&quot;resources/s1.jpg&quot;);&#xa;//ImageContainerPanel.add(IPanel);&#xa;//IPanel.paintComponent(IPanel.getGraphics());"/>
-              </AuxValues>
 
               <Layout>
                 <DimensionLayout dim="0">
@@ -257,6 +265,7 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="ImageLabel">
                   <Properties>
+                    <Property name="horizontalAlignment" type="int" value="0"/>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[400, 400]"/>
                     </Property>

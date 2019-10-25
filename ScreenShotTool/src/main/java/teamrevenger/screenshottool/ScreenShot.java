@@ -25,7 +25,6 @@ import javax.imageio.ImageIO;
  * @author thesid01
  */
 public class ScreenShot {
-    private String name = "ScreenShot";
     private String lastScreenShotName;
     
     public String getName(){
@@ -38,6 +37,10 @@ public class ScreenShot {
     
     public String getLastName(){
         return this.lastScreenShotName;
+    }
+    
+    public void setLastScreenShotName(String str){
+        this.lastScreenShotName = str;
     }
     
     void takeScreenShot(){
