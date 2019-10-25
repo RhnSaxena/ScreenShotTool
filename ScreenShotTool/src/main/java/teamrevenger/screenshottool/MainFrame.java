@@ -7,10 +7,7 @@ package teamrevenger.screenshottool;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,12 +17,17 @@ import javax.imageio.ImageIO;
 /**
  *
  * @author thesid01
+ * @author rakshak
+ * @author rohan
  */
 public class MainFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form MainFrame
      */
+    
+    private boolean loaded = false;
+    public ScreenShot screenShot = new ScreenShot();
     public MainFrame() {
         initComponents();
     }
@@ -45,6 +47,7 @@ public class MainFrame extends javax.swing.JFrame {
         ToolBarPanel = new javax.swing.JPanel();
         captureButton = new javax.swing.JButton();
         Thumbnail = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
         Share = new javax.swing.JPanel();
         MiddlePanel = new javax.swing.JPanel();
         ImageContainerPanel = new javax.swing.JPanel();
@@ -111,11 +114,11 @@ public class MainFrame extends javax.swing.JFrame {
         Thumbnail.setLayout(ThumbnailLayout);
         ThumbnailLayout.setHorizontalGroup(
             ThumbnailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 150, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
         );
         ThumbnailLayout.setVerticalGroup(
             ThumbnailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
 
         javax.swing.GroupLayout ShareLayout = new javax.swing.GroupLayout(Share);
@@ -234,47 +237,35 @@ public class MainFrame extends javax.swing.JFrame {
     private void captureButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_captureButtonActionPerformed
         // TODO add your handling code here:
         setExtendedState(JFrame.ICONIFIED);
-        this.takeScreenShot();
+        screenShot.takeScreenShot();
+        this.loaded = true;
         String format = "jpg";
         String fileName = "screen." + format;
         try {
             Image img;
-            img = this.getScreenShot(fileName);
+            img = this.screenShot.getScreenShot(fileName);
             this.drawScreenShot(img);
         } catch (IOException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
     }//GEN-LAST:event_captureButtonActionPerformed
 
-    public String getLatestScreenShotName(){
-        return "screen.jpg";
-    }
         
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
         // TODO add your handling code here:
-        String str = this.getLatestScreenShotName();
-        this.resizeScreenShot(str);        
+        String str = this.screenShot.getLastName();
+        System.out.println("siddharth");
+        if(this.loaded == true)
+            this.resizeScreenShot(str);
     }//GEN-LAST:event_formComponentResized
 
-    void takeScreenShot(){
-        try {
-            Robot robot = new Robot();
-            String format = "jpg";
-            String fileName = "screen." + format;
-            Rectangle screenRect = new  Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
-            BufferedImage screenFullImage = robot.createScreenCapture(screenRect);
-            ImageIO.write(screenFullImage, format, new File(fileName));
-            
-        } catch (AWTException | IOException ex) {
-            System.err.println("catch block");
-        }
-    }
     
     public void drawScreenShot(Image img){
         try{
             String size = img.getWidth(null) + "x" + img.getHeight(null);
             float ratio =  (float)img.getWidth(null)/(float)img.getHeight(null);
-            Image newImage = img.getScaledInstance( this.getWidth() - 400 , this.getHeight() - 400, Image.SCALE_DEFAULT);
+            Image newImage = img.getScaledInstance((int) (this.getWidth()-400*ratio), (int) (this.getHeight()-400), Image.SCALE_DEFAULT);
 
             ImageLabel.setIcon(new ImageIcon(newImage));
             ImageLabel.setText(size);
@@ -284,21 +275,16 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
     
-    public Image getScreenShot(String name) throws FileNotFoundException, IOException{
-        Image img = ImageIO.read(new FileInputStream(name));
-        return img;
-    }
-    
     void resizeScreenShot(String name){
         try{
-            Image img = getScreenShot(name);
+            Image img = this.screenShot.getScreenShot(name);
             String size = img.getWidth(null) + "x" + img.getHeight(null);
             float ratio =  (float)img.getWidth(null)/(float)img.getHeight(null);
-            Image newImage = img.getScaledInstance( this.getWidth() - 400 , this.getHeight() - 400, Image.SCALE_DEFAULT);
+            Image newImage = img.getScaledInstance(this.getWidth() - 400 , (int) ((this.getWidth() - 400)/ratio), Image.SCALE_DEFAULT);
             this.ImageLabel.setIcon(new ImageIcon(newImage));
             this.ImageLabel.setText(size);
             System.out.println("Image fetched");
-        }catch(Exception ex){
+        }catch(IOException ex){
             System.out.println(ex);
         }
     }
@@ -334,7 +320,6 @@ public class MainFrame extends javax.swing.JFrame {
             public void run() {
                 // create main frame
                 MainFrame frame = new MainFrame();
-                
                 //center Main Frame
                 frame.setTitle("Screen Shot Tool"); //set title
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -359,5 +344,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton captureButton;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
