@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,19 +30,15 @@ public class MainFrame extends javax.swing.JFrame {
     ArrayList<JLabel> lab1;
     private final LatestScreenShots ScreenShotName;
     private boolean loaded;
-    private final String lastOpened;
-    private final javax.swing.JLabel[] ThumbnailLabel;
     public ScreenShot screenShot = new ScreenShot();
 /**
      * Creates new form MainFrame
      */
     
     public MainFrame() {
-        this.ThumbnailLabel = new JLabel[10];
-        this.lastOpened = "";
         this.loaded = false;
         this.ScreenShotName = new LatestScreenShots();
-        this.lab1 = new ArrayList<JLabel>();
+        this.lab1 = new ArrayList<>();
         initComponents();
     }
 
@@ -121,8 +118,8 @@ public class MainFrame extends javax.swing.JFrame {
         );
 
         try{
-            int i=0;
             JLabel[] lab2 = new JLabel[50];
+            int i=0;
             File fldr = new File("./");
             File[] loF = fldr.listFiles();
             for (File file : loF) {
@@ -174,12 +171,6 @@ public class MainFrame extends javax.swing.JFrame {
         captureButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 captureButtonActionPerformed(evt);
-            }
-        });
-
-        Refresh.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RefreshActionPerformed(evt);
             }
         });
 
@@ -485,13 +476,6 @@ public class MainFrame extends javax.swing.JFrame {
         Gallery.setVisible(true); // set
     }//GEN-LAST:event_CheckGalleryButtonActionPerformed
 
-    private void RefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshActionPerformed
-        // TODO add your handling code here:
-        SPane.removeAll();
-        repaint();
-        this.refreshThumbnail();
-    }//GEN-LAST:event_RefreshActionPerformed
-
     // Close JFrame from exit button
     public void drawScreenShot(Image img){
         try{
@@ -539,6 +523,8 @@ public class MainFrame extends javax.swing.JFrame {
         String[] str = new String[s.size()];
         str = s.toArray(str); 
         Arrays.sort(str,Collections.reverseOrder());
+        SPane.removeAll();
+        repaint();
         try{
             int i=0;
             for(String st : str){

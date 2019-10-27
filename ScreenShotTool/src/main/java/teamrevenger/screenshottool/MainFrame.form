@@ -70,7 +70,7 @@
                 </Property>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try{&#xa;int i=0;&#xa;JLabel[] lab2 = new JLabel[50];&#xa;File fldr = new File(&quot;./&quot;);&#xa;    File[] loF = fldr.listFiles();&#xa;    for (File file : loF) {&#xa;        if (file.isFile() &amp;&amp; file.getName().toLowerCase().endsWith(&quot;.png&quot;)) {&#xa;            String s = file.getName();&#xa;            System.out.println(s);&#xa;            i++;&#xa;            Image img;&#xa;            img = ImageIO.read(new FileInputStream(s));&#xa;            float ratio = img.getWidth(null)/img.getHeight(null);&#xa;            img  = img.getScaledInstance(140, (int) (140/ratio), Image.SCALE_DEFAULT);&#xa;            ImageIcon icon1=new ImageIcon(img);&#xa;            lab2[i] = new JLabel();&#xa;            lab2[i].setIcon(icon1);&#xa;            lab2[i].setSize(new Dimension(150,100));&#xa;            lab2[i].setLocation(0, i*110);&#xa;            jPanel1.add(lab2[i]);&#xa;            i++;&#xa;            if(i&gt;=50)&#xa;                break;&#xa;        }&#xa;    }&#xa;}catch (Exception ex){&#xa;    System.err.println(ex);&#xa;}"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try{&#xa;JLabel[] lab2 = new JLabel[50];&#xa;int i=0;&#xa;File fldr = new File(&quot;./&quot;);&#xa;    File[] loF = fldr.listFiles();&#xa;    for (File file : loF) {&#xa;        if (file.isFile() &amp;&amp; file.getName().toLowerCase().endsWith(&quot;.png&quot;)) {&#xa;            String s = file.getName();&#xa;            System.out.println(s);&#xa;            i++;&#xa;            Image img;&#xa;            img = ImageIO.read(new FileInputStream(s));&#xa;            float ratio = img.getWidth(null)/img.getHeight(null);&#xa;            img  = img.getScaledInstance(140, (int) (140/ratio), Image.SCALE_DEFAULT);&#xa;            ImageIcon icon1=new ImageIcon(img);&#xa;            lab2[i] = new JLabel();&#xa;            lab2[i].setIcon(icon1);&#xa;            lab2[i].setSize(new Dimension(150,100));&#xa;            lab2[i].setLocation(0, i*110);&#xa;            jPanel1.add(lab2[i]);&#xa;            i++;&#xa;            if(i&gt;=50)&#xa;                break;&#xa;        }&#xa;    }&#xa;}catch (Exception ex){&#xa;    System.err.println(ex);&#xa;}"/>
               </AuxValues>
 
               <Layout>
@@ -264,9 +264,6 @@
               </AuxValues>
             </Component>
             <Component class="javax.swing.JButton" name="Refresh">
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RefreshActionPerformed"/>
-              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try{&#xa;    Image refreshimg = ImageIO.read(new FileInputStream(&quot;resources/refresh.png&quot;));&#xa;    Refresh.setIcon(new ImageIcon(refreshimg));&#xa;    System.out.println(&quot;Image fetched&quot;);&#xa;}catch(Exception ex){&#xa;    System.out.println(ex);&#xa;}"/>
               </AuxValues>
