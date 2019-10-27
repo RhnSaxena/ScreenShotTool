@@ -7,11 +7,11 @@ package teamrevenger.screenshottool;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Dialog.ModalityType;
-import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -25,14 +25,22 @@ import javax.imageio.ImageIO;
  */
 public class MainFrame extends javax.swing.JFrame {
 
-    /**
+    ArrayList<JLabel> lab1;
+    private final LatestScreenShots ScreenShotName;
+    private boolean loaded;
+    private final String lastOpened;
+    private final javax.swing.JLabel[] ThumbnailLabel;
+    public ScreenShot screenShot = new ScreenShot();
+/**
      * Creates new form MainFrame
      */
     
-    private boolean loaded = false;
-    private String lastOpened = "";
-    public ScreenShot screenShot = new ScreenShot();
     public MainFrame() {
+        this.ThumbnailLabel = new JLabel[10];
+        this.lastOpened = "";
+        this.loaded = false;
+        this.ScreenShotName = new LatestScreenShots();
+        this.lab1 = new ArrayList<JLabel>();
         initComponents();
     }
 
@@ -46,21 +54,110 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         fileChooser = new javax.swing.JFileChooser();
+        Gallery = new javax.swing.JFrame();
+        GalleryPanel = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         ParentPanel = new javax.swing.JPanel();
         ToolBarPanel = new javax.swing.JPanel();
         captureButton = new javax.swing.JButton();
-        Thumbnail = new javax.swing.JPanel();
-        ThumbnailcrollPanel = new javax.swing.JScrollPane();
+        Refresh = new javax.swing.JButton();
+        crop = new javax.swing.JButton();
         Share = new javax.swing.JPanel();
         MiddlePanel = new javax.swing.JPanel();
         ImageContainerPanel = new javax.swing.JPanel();
         ImageLabel = new javax.swing.JLabel();
+        LastPanel = new javax.swing.JPanel();
+        GalleryButton = new javax.swing.JPanel();
+        CheckGalleryButton = new javax.swing.JButton();
+        SPane = new javax.swing.JPanel();
         MainMenuBar = new javax.swing.JMenuBar();
         FileMenu = new javax.swing.JMenu();
         Open = new javax.swing.JMenuItem();
         Save = new javax.swing.JMenuItem();
         Exit = new javax.swing.JMenuItem();
         EditMenu = new javax.swing.JMenu();
+
+        Gallery.setTitle("Gallery");
+        Gallery.setMinimumSize(new java.awt.Dimension(800, 600));
+
+        GalleryPanel.setBackground(new java.awt.Color(204, 255, 204));
+
+        jLabel1.setText("Screen Shots Taken By ScreenShot App");
+
+        jPanel1.setBackground(new java.awt.Color(102, 255, 102));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 261, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout GalleryPanelLayout = new javax.swing.GroupLayout(GalleryPanel);
+        GalleryPanel.setLayout(GalleryPanelLayout);
+        GalleryPanelLayout.setHorizontalGroup(
+            GalleryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GalleryPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(GalleryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        GalleryPanelLayout.setVerticalGroup(
+            GalleryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(GalleryPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        try{
+            int i=0;
+            JLabel[] lab2 = new JLabel[50];
+            File fldr = new File("./");
+            File[] loF = fldr.listFiles();
+            for (File file : loF) {
+                if (file.isFile() && file.getName().toLowerCase().endsWith(".png")) {
+                    String s = file.getName();
+                    System.out.println(s);
+                    i++;
+                    Image img;
+                    img = ImageIO.read(new FileInputStream(s));
+                    float ratio = img.getWidth(null)/img.getHeight(null);
+                    img  = img.getScaledInstance(140, (int) (140/ratio), Image.SCALE_DEFAULT);
+                    ImageIcon icon1=new ImageIcon(img);
+                    lab2[i] = new JLabel();
+                    lab2[i].setIcon(icon1);
+                    lab2[i].setSize(new Dimension(150,100));
+                    lab2[i].setLocation(0, i*110);
+                    jPanel1.add(lab2[i]);
+                    i++;
+                    if(i>=50)
+                    break;
+                }
+            }
+        }catch (Exception ex){
+            System.err.println(ex);
+        }
+
+        javax.swing.GroupLayout GalleryLayout = new javax.swing.GroupLayout(Gallery.getContentPane());
+        Gallery.getContentPane().setLayout(GalleryLayout);
+        GalleryLayout.setHorizontalGroup(
+            GalleryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(GalleryPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        GalleryLayout.setVerticalGroup(
+            GalleryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(GalleryPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(10, 0, 102));
@@ -83,16 +180,23 @@ public class MainFrame extends javax.swing.JFrame {
         ToolBarPanel.setLayout(ToolBarPanelLayout);
         ToolBarPanelLayout.setHorizontalGroup(
             ToolBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ToolBarPanelLayout.createSequentialGroup()
+            .addGroup(ToolBarPanelLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(captureButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(ToolBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(captureButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Refresh, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(crop, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         ToolBarPanelLayout.setVerticalGroup(
             ToolBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ToolBarPanelLayout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addComponent(captureButton)
-                .addContainerGap(326, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Refresh)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(crop)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         try{
@@ -102,33 +206,19 @@ public class MainFrame extends javax.swing.JFrame {
         }catch(Exception ex){
             System.out.println(ex);
         }
-
-        javax.swing.GroupLayout ThumbnailLayout = new javax.swing.GroupLayout(Thumbnail);
-        Thumbnail.setLayout(ThumbnailLayout);
-        ThumbnailLayout.setHorizontalGroup(
-            ThumbnailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ThumbnailcrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-        );
-        ThumbnailLayout.setVerticalGroup(
-            ThumbnailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ThumbnailcrollPanel)
-        );
-
-        File folder = new File("./");
-        File[] listOfFiles = folder.listFiles();
-
-        for (int i = 0; i < listOfFiles.length; i++) {
-            if (listOfFiles[i].isFile()) {
-                ImageLabel = new javax.swing.JLabel();
-                ImageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-                ImageLabel.setMaximumSize(new java.awt.Dimension(200, 200));
-                ImageLabel.setMinimumSize(new java.awt.Dimension(200, 200));
-                ThumbnailcrollPanel.add(ImageLabel);
-                System.out.println("Thumbnail Loaded");
-            }
-            //    else if (listOfFiles[i].isDirectory()) {
-                //    System.out.println("Directory " + listOfFiles[i].getName());
-                //  }
+        try{
+            Image refreshimg = ImageIO.read(new FileInputStream("resources/refresh.png"));
+            Refresh.setIcon(new ImageIcon(refreshimg));
+            System.out.println("Image fetched");
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+        try{
+            Image cropimg = ImageIO.read(new FileInputStream("resources/crop.png"));
+            crop.setIcon(new ImageIcon(cropimg));
+            System.out.println("Image fetched");
+        }catch(Exception ex){
+            System.out.println(ex);
         }
 
         javax.swing.GroupLayout ShareLayout = new javax.swing.GroupLayout(Share);
@@ -146,6 +236,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         ImageContainerPanel.setBackground(new java.awt.Color(51, 51, 255));
 
+        ImageLabel.setBackground(new java.awt.Color(204, 255, 51));
         ImageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         ImageLabel.setMaximumSize(new java.awt.Dimension(400, 400));
         ImageLabel.setMinimumSize(new java.awt.Dimension(200, 200));
@@ -184,6 +275,54 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        LastPanel.setBackground(new java.awt.Color(0, 204, 204));
+
+        CheckGalleryButton.setText("Check Out Gallery");
+        CheckGalleryButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CheckGalleryButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout GalleryButtonLayout = new javax.swing.GroupLayout(GalleryButton);
+        GalleryButton.setLayout(GalleryButtonLayout);
+        GalleryButtonLayout.setHorizontalGroup(
+            GalleryButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(CheckGalleryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        GalleryButtonLayout.setVerticalGroup(
+            GalleryButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(CheckGalleryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout SPaneLayout = new javax.swing.GroupLayout(SPane);
+        SPane.setLayout(SPaneLayout);
+        SPaneLayout.setHorizontalGroup(
+            SPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 150, Short.MAX_VALUE)
+        );
+        SPaneLayout.setVerticalGroup(
+            SPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 334, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout LastPanelLayout = new javax.swing.GroupLayout(LastPanel);
+        LastPanel.setLayout(LastPanelLayout);
+        LastPanelLayout.setHorizontalGroup(
+            LastPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(GalleryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(SPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        LastPanelLayout.setVerticalGroup(
+            LastPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(LastPanelLayout.createSequentialGroup()
+                .addComponent(GalleryButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(SPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        refreshThumbnail();
+
         javax.swing.GroupLayout ParentPanelLayout = new javax.swing.GroupLayout(ParentPanel);
         ParentPanel.setLayout(ParentPanelLayout);
         ParentPanelLayout.setHorizontalGroup(
@@ -193,22 +332,24 @@ public class MainFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(MiddlePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Thumbnail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(LastPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(Share, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         ParentPanelLayout.setVerticalGroup(
             ParentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ParentPanelLayout.createSequentialGroup()
                 .addGroup(ParentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ToolBarPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(ParentPanelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(MiddlePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(ToolBarPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Thumbnail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(LastPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Share, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+
+        //SPane.getViewport().setOpaque(false);
 
         FileMenu.setText("File");
         FileMenu.addActionListener(new java.awt.event.ActionListener() {
@@ -326,13 +467,27 @@ public class MainFrame extends javax.swing.JFrame {
                             System.exit(0);
     }//GEN-LAST:event_ExitActionPerformed
 
+    private void CheckGalleryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckGalleryButtonActionPerformed
+        // TODO add your handling code here:
+        
+        Gallery.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        Gallery.setLocationRelativeTo(null); // this method display the JFrame to center position of a screen                
+        Gallery.setVisible(true); // set
+    }//GEN-LAST:event_CheckGalleryButtonActionPerformed
+
     // Close JFrame from exit button
     public void drawScreenShot(Image img){
         try{
 //            String size = img.getWidth(null) + "x" + img.getHeight(null);
             float ratio =  (float)img.getWidth(null)/(float)img.getHeight(null);
-            Image newImage = img.getScaledInstance((int) ((this.getWidth()-400)), (int) ((this.getWidth()-400)/ratio), Image.SCALE_DEFAULT);
+            Image newImage ;
+            if(ImageLabel.getSize().height > ImageLabel.getSize().width){
+                newImage = img.getScaledInstance((int) ((ImageLabel.getSize().height)/ratio), ImageLabel.getSize().height , Image.SCALE_DEFAULT);
 
+            }else{
+                newImage = img.getScaledInstance(ImageLabel.getSize().width, (int) (ImageLabel.getSize().width/ratio), Image.SCALE_DEFAULT);
+//                newImage = img.getScaledInstance((int) ((this.getWidth()-400)), (int) ((this.getWidth()-400)/ratio), Image.SCALE_DEFAULT);
+            }
             ImageLabel.setIcon(new ImageIcon(newImage));
 //            ImageLabel.setText(size);
             System.out.println("Image fetched");
@@ -346,12 +501,48 @@ public class MainFrame extends javax.swing.JFrame {
             Image img = this.screenShot.getScreenShot(name);
 //            String size = img.getWidth(null) + "x" + img.getHeight(null);
             float ratio =  (float)img.getWidth(null)/(float)img.getHeight(null);
-            Image newImage = img.getScaledInstance(this.getWidth() - 400 , (int) ((this.getWidth() - 400)/ratio), Image.SCALE_DEFAULT);
+            Image newImage ;
+            if(ImageLabel.getSize().height > ImageLabel.getSize().width){
+                newImage = img.getScaledInstance((int) ((ImageLabel.getSize().height)/ratio), ImageLabel.getSize().height , Image.SCALE_DEFAULT);
+
+            }else{
+                newImage = img.getScaledInstance(ImageLabel.getSize().width, (int) (ImageLabel.getSize().width/ratio), Image.SCALE_DEFAULT);
+//                newImage = img.getScaledInstance((int) ((this.getWidth()-400)), (int) ((this.getWidth()-400)/ratio), Image.SCALE_DEFAULT);
+            }
             this.ImageLabel.setIcon(new ImageIcon(newImage));
 //            this.ImageLabel.setText(size);
             System.out.println("Image Resized");
         }catch(IOException ex){
             System.out.println(ex);
+        }
+    }
+    
+    void refreshThumbnail(){
+        ArrayList<String> s = ScreenShotName.getLatestScreenShotName();
+        String[] str = new String[s.size()];
+        str = s.toArray(str); 
+        Arrays.sort(str);
+        try{
+            int i=0;
+            for(String st : str){
+                Image img;
+                img = ImageIO.read(new FileInputStream(st));
+                float ratio = img.getWidth(null)/img.getHeight(null);
+                img  = img.getScaledInstance(140, (int) (140/ratio), Image.SCALE_DEFAULT);
+                ImageIcon icon1=new ImageIcon(img);
+                JLabel tmp = new JLabel();
+                tmp.setIcon(icon1);
+                tmp.setSize(new Dimension(150,100));
+                tmp.setLocation(0, i*110);
+//                this.lab1.
+//                this.lab1.set(i, tmp);
+                SPane.add(tmp);
+                i++;
+                if(i>=5)
+                    break;
+            }
+        }catch (IOException ex){
+            System.err.println(ex);
         }
     }
     /**
@@ -382,48 +573,53 @@ public class MainFrame extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                // create main frame
-                MainFrame frame = new MainFrame();
-                //center Main Frame
-                frame.setTitle("Screen Shot Tool"); //set title                
-                
-                frame.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                        int reply = JOptionPane.showConfirmDialog(null,
-                                "Are you sure you want to close this window?", "Close Window?",
-                                JOptionPane.YES_NO_OPTION);
-                        if (reply == JOptionPane.YES_OPTION)
-                            System.exit(0);
-                    }
-                });
-                
-                frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-                frame.setLocationRelativeTo(null); // this method display the JFrame to center position of a screen                
-                frame.setVisible(true); // set visible;
-                
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            // create main frame
+            MainFrame frame = new MainFrame();
+            //center Main Frame
+            frame.setTitle("Screen Shot Tool"); //set title
+            
+            frame.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                    int reply = JOptionPane.showConfirmDialog(null,
+                            "Are you sure you want to close this window?", "Close Window?",
+                            JOptionPane.YES_NO_OPTION);
+                    if (reply == JOptionPane.YES_OPTION)
+                        System.exit(0);
+                }
+            });
+            
+            frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            frame.setLocationRelativeTo(null); // this method display the JFrame to center position of a screen
+            frame.setVisible(true); // set visible;
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton CheckGalleryButton;
     private javax.swing.JMenu EditMenu;
     private javax.swing.JMenuItem Exit;
     private javax.swing.JMenu FileMenu;
+    private javax.swing.JFrame Gallery;
+    private javax.swing.JPanel GalleryButton;
+    private javax.swing.JPanel GalleryPanel;
     private javax.swing.JPanel ImageContainerPanel;
     private javax.swing.JLabel ImageLabel;
+    private javax.swing.JPanel LastPanel;
     private javax.swing.JMenuBar MainMenuBar;
     private javax.swing.JPanel MiddlePanel;
     private javax.swing.JMenuItem Open;
     private javax.swing.JPanel ParentPanel;
+    private javax.swing.JButton Refresh;
+    private javax.swing.JPanel SPane;
     private javax.swing.JMenuItem Save;
     private javax.swing.JPanel Share;
-    private javax.swing.JPanel Thumbnail;
-    private javax.swing.JScrollPane ThumbnailcrollPanel;
     private javax.swing.JPanel ToolBarPanel;
     private javax.swing.JButton captureButton;
+    private javax.swing.JButton crop;
     private javax.swing.JFileChooser fileChooser;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
