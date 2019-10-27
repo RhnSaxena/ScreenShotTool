@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -173,6 +174,12 @@ public class MainFrame extends javax.swing.JFrame {
         captureButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 captureButtonActionPerformed(evt);
+            }
+        });
+
+        Refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RefreshActionPerformed(evt);
             }
         });
 
@@ -419,6 +426,9 @@ public class MainFrame extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
+        SPane.removeAll();
+        repaint();
+        this.refreshThumbnail();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
     }//GEN-LAST:event_captureButtonActionPerformed
 
@@ -475,6 +485,13 @@ public class MainFrame extends javax.swing.JFrame {
         Gallery.setVisible(true); // set
     }//GEN-LAST:event_CheckGalleryButtonActionPerformed
 
+    private void RefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshActionPerformed
+        // TODO add your handling code here:
+        SPane.removeAll();
+        repaint();
+        this.refreshThumbnail();
+    }//GEN-LAST:event_RefreshActionPerformed
+
     // Close JFrame from exit button
     public void drawScreenShot(Image img){
         try{
@@ -521,7 +538,7 @@ public class MainFrame extends javax.swing.JFrame {
         ArrayList<String> s = ScreenShotName.getLatestScreenShotName();
         String[] str = new String[s.size()];
         str = s.toArray(str); 
-        Arrays.sort(str);
+        Arrays.sort(str,Collections.reverseOrder());
         try{
             int i=0;
             for(String st : str){
@@ -534,8 +551,6 @@ public class MainFrame extends javax.swing.JFrame {
                 tmp.setIcon(icon1);
                 tmp.setSize(new Dimension(150,100));
                 tmp.setLocation(0, i*110);
-//                this.lab1.
-//                this.lab1.set(i, tmp);
                 SPane.add(tmp);
                 i++;
                 if(i>=5)
