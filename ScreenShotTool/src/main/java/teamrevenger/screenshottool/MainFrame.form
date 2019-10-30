@@ -264,6 +264,9 @@
               </AuxValues>
             </Component>
             <Component class="javax.swing.JButton" name="Refresh">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RefreshActionPerformed"/>
+              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try{&#xa;    Image refreshimg = ImageIO.read(new FileInputStream(&quot;resources/refresh.png&quot;));&#xa;    Refresh.setIcon(new ImageIcon(refreshimg));&#xa;    System.out.println(&quot;Image fetched&quot;);&#xa;}catch(Exception ex){&#xa;    System.out.println(ex);&#xa;}"/>
               </AuxValues>

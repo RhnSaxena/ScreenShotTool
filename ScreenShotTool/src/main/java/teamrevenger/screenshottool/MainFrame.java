@@ -174,6 +174,12 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        Refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RefreshActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout ToolBarPanelLayout = new javax.swing.GroupLayout(ToolBarPanel);
         ToolBarPanel.setLayout(ToolBarPanelLayout);
         ToolBarPanelLayout.setHorizontalGroup(
@@ -475,6 +481,11 @@ public class MainFrame extends javax.swing.JFrame {
         Gallery.setLocationRelativeTo(null); // this method display the JFrame to center position of a screen                
         Gallery.setVisible(true); // set
     }//GEN-LAST:event_CheckGalleryButtonActionPerformed
+
+    private void RefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshActionPerformed
+        // TODO add your handling code here:
+        this.refreshThumbnail();
+    }//GEN-LAST:event_RefreshActionPerformed
 
     // Close JFrame from exit button
     public void drawScreenShot(Image img){

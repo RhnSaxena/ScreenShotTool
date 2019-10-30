@@ -21,6 +21,7 @@ public class LatestScreenShots {
     
     
     public ArrayList<String> getLatestScreenShotName(){
+        str.clear();
         File folder = new File("./");
         File[] listOfFiles = folder.listFiles();
         for (File file : listOfFiles) {
