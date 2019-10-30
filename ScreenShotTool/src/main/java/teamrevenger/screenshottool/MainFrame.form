@@ -90,6 +90,36 @@
         </Container>
       </SubComponents>
     </Container>
+    <Container class="javax.swing.JFrame" name="dragCrop">
+      <Properties>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Southwest Resize Cursor"/>
+        </Property>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[500, 500]"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_LayoutCodePost" type="java.lang.String" value="setExtendedState(JFrame.MAXIMIZED_BOTH);"/>
+      </AuxValues>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Component id="cropImageLabel" alignment="0" pref="400" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Component id="cropImageLabel" alignment="0" pref="300" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="cropImageLabel">
+        </Component>
+      </SubComponents>
+    </Container>
     <Menu class="javax.swing.JMenuBar" name="MainMenuBar">
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="FileMenu">
@@ -272,6 +302,9 @@
               </AuxValues>
             </Component>
             <Component class="javax.swing.JButton" name="crop">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cropActionPerformed"/>
+              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try{&#xa;    Image cropimg = ImageIO.read(new FileInputStream(&quot;resources/crop.png&quot;));&#xa;    crop.setIcon(new ImageIcon(cropimg));&#xa;    System.out.println(&quot;Image fetched&quot;);&#xa;}catch(Exception ex){&#xa;    System.out.println(ex);&#xa;}"/>
               </AuxValues>

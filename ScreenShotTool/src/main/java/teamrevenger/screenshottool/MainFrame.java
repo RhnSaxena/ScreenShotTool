@@ -56,6 +56,8 @@ public class MainFrame extends javax.swing.JFrame {
         GalleryPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        dragCrop = new javax.swing.JFrame();
+        cropImageLabel = new javax.swing.JLabel();
         ParentPanel = new javax.swing.JPanel();
         ToolBarPanel = new javax.swing.JPanel();
         captureButton = new javax.swing.JButton();
@@ -157,6 +159,22 @@ public class MainFrame extends javax.swing.JFrame {
             .addComponent(GalleryPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        dragCrop.setCursor(new java.awt.Cursor(java.awt.Cursor.SW_RESIZE_CURSOR));
+        dragCrop.setMinimumSize(new java.awt.Dimension(500, 500));
+
+        javax.swing.GroupLayout dragCropLayout = new javax.swing.GroupLayout(dragCrop.getContentPane());
+        dragCrop.getContentPane().setLayout(dragCropLayout);
+        dragCropLayout.setHorizontalGroup(
+            dragCropLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(cropImageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+        );
+        dragCropLayout.setVerticalGroup(
+            dragCropLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(cropImageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+        );
+
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(10, 0, 102));
         setMinimumSize(new java.awt.Dimension(800, 600));
@@ -177,6 +195,12 @@ public class MainFrame extends javax.swing.JFrame {
         Refresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RefreshActionPerformed(evt);
+            }
+        });
+
+        crop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cropActionPerformed(evt);
             }
         });
 
@@ -487,6 +511,20 @@ public class MainFrame extends javax.swing.JFrame {
         this.refreshThumbnail();
     }//GEN-LAST:event_RefreshActionPerformed
 
+    private void cropActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cropActionPerformed
+        // TODO add your handling code here:
+        String name = this.screenShot.getLastName();
+        try{
+            Image img = this.screenShot.getScreenShot(name);
+            cropImageLabel.setIcon(new ImageIcon(img));
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        dragCrop.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        dragCrop.setLocationRelativeTo(null); // this method display the JFrame to center position of a screen                
+        dragCrop.setVisible(true);
+    }//GEN-LAST:event_cropActionPerformed
+
     // Close JFrame from exit button
     public void drawScreenShot(Image img){
         try{
@@ -630,6 +668,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel ToolBarPanel;
     private javax.swing.JButton captureButton;
     private javax.swing.JButton crop;
+    private javax.swing.JLabel cropImageLabel;
+    private javax.swing.JFrame dragCrop;
     private javax.swing.JFileChooser fileChooser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
