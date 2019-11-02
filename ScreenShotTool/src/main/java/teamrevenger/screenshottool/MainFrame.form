@@ -28,7 +28,7 @@
         <Container class="javax.swing.JPanel" name="GalleryPanel">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="cc" green="ff" red="cc" type="rgb"/>
+              <Color blue="ff" green="ff" red="cc" type="rgb"/>
             </Property>
           </Properties>
 
@@ -66,11 +66,11 @@
             <Container class="javax.swing.JPanel" name="jPanel1">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="66" green="ff" red="66" type="rgb"/>
+                  <Color blue="cc" green="cc" red="cc" type="rgb"/>
                 </Property>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try{&#xa;JLabel[] lab2 = new JLabel[50];&#xa;int i=0;&#xa;File fldr = new File(&quot;./&quot;);&#xa;    File[] loF = fldr.listFiles();&#xa;    for (File file : loF) {&#xa;        if (file.isFile() &amp;&amp; file.getName().toLowerCase().endsWith(&quot;.png&quot;)) {&#xa;            String s = file.getName();&#xa;            System.out.println(s);&#xa;            i++;&#xa;            Image img;&#xa;            img = ImageIO.read(new FileInputStream(s));&#xa;            float ratio = img.getWidth(null)/img.getHeight(null);&#xa;            img  = img.getScaledInstance(140, (int) (140/ratio), Image.SCALE_DEFAULT);&#xa;            ImageIcon icon1=new ImageIcon(img);&#xa;            lab2[i] = new JLabel();&#xa;            lab2[i].setIcon(icon1);&#xa;            lab2[i].setSize(new Dimension(150,100));&#xa;            lab2[i].setLocation(0, i*110);&#xa;            jPanel1.add(lab2[i]);&#xa;            i++;&#xa;            if(i&gt;=50)&#xa;                break;&#xa;        }&#xa;    }&#xa;}catch (Exception ex){&#xa;    System.err.println(ex);&#xa;}"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();&#xa;double width = screenSize.getWidth();&#xa;double height = screenSize.getHeight();&#xa;//Gallery.setSize(width, height);&#xa;ArrayList&lt;String&gt; s = ScreenShotName.getLatestScreenShotName();&#xa;String[] str = new String[s.size()];&#xa;str = s.toArray(str); &#xa;Arrays.sort(str,Collections.reverseOrder());&#xa;jPanel1.removeAll();&#xa;repaint();&#xa;try{&#xa;    int i=0;&#xa;    int j=0;&#xa;    for(String st : str){&#xa;        System.out.println(st + &quot;sid&quot;);&#xa;        Image img;&#xa;        img = ImageIO.read(new FileInputStream(st));&#xa;        float ratio = img.getWidth(null)/img.getHeight(null);&#xa;        img  = img.getScaledInstance(140, (int) (140/ratio), Image.SCALE_DEFAULT);&#xa;        ImageIcon icon1=new ImageIcon(img);&#xa;//        i++;&#xa;        JLabel tmp = new JLabel();&#xa;        tmp.setIcon(icon1);&#xa;        tmp.setSize(new Dimension(150,100));&#xa;        tmp.setLocation(j*200+10, i*170+10);&#xa;        jPanel1.add(tmp);&#xa;        if((j+2)*110&gt;width){&#xa;            i++;&#xa;            j=0;&#xa;        }else{&#xa;            j++;&#xa;        }&#xa;    }&#xa;}catch (IOException ex){&#xa;    System.err.println(ex);&#xa;}"/>
               </AuxValues>
 
               <Layout>
@@ -217,11 +217,6 @@
   </Layout>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="ParentPanel">
-      <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="0" red="cc" type="rgb"/>
-        </Property>
-      </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -256,6 +251,13 @@
       </Layout>
       <SubComponents>
         <Container class="javax.swing.JPanel" name="ToolBarPanel">
+          <Properties>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                <TitledBorder/>
+              </Border>
+            </Property>
+          </Properties>
 
           <Layout>
             <DimensionLayout dim="0">
@@ -327,11 +329,6 @@
           </Layout>
         </Container>
         <Container class="javax.swing.JPanel" name="MiddlePanel">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="33" green="66" red="ff" type="rgb"/>
-            </Property>
-          </Properties>
 
           <Layout>
             <DimensionLayout dim="0">
@@ -355,18 +352,13 @@
           </Layout>
           <SubComponents>
             <Container class="javax.swing.JPanel" name="ImageContainerPanel">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="33" red="33" type="rgb"/>
-                </Property>
-              </Properties>
 
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                          <Component id="ImageLabel" pref="337" max="32767" attributes="0"/>
+                          <Component id="ImageLabel" pref="333" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -385,7 +377,7 @@
                 <Component class="javax.swing.JLabel" name="ImageLabel">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="33" green="ff" red="cc" type="rgb"/>
+                      <Color blue="ff" green="ff" red="ff" type="rgb"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -403,7 +395,7 @@
         <Container class="javax.swing.JPanel" name="LastPanel">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="cc" green="cc" red="0" type="rgb"/>
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
           </Properties>
           <AuxValues>

@@ -81,11 +81,11 @@ public class MainFrame extends javax.swing.JFrame {
         Gallery.setTitle("Gallery");
         Gallery.setMinimumSize(new java.awt.Dimension(800, 600));
 
-        GalleryPanel.setBackground(new java.awt.Color(204, 255, 204));
+        GalleryPanel.setBackground(new java.awt.Color(204, 255, 255));
 
         jLabel1.setText("Screen Shots Taken By ScreenShot App");
 
-        jPanel1.setBackground(new java.awt.Color(102, 255, 102));
+        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -119,32 +119,40 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double width = screenSize.getWidth();
+        double height = screenSize.getHeight();
+        //Gallery.setSize(width, height);
+        ArrayList<String> s = ScreenShotName.getLatestScreenShotName();
+        String[] str = new String[s.size()];
+        str = s.toArray(str);
+        Arrays.sort(str,Collections.reverseOrder());
+        jPanel1.removeAll();
+        repaint();
         try{
-            JLabel[] lab2 = new JLabel[50];
             int i=0;
-            File fldr = new File("./");
-            File[] loF = fldr.listFiles();
-            for (File file : loF) {
-                if (file.isFile() && file.getName().toLowerCase().endsWith(".png")) {
-                    String s = file.getName();
-                    System.out.println(s);
+            int j=0;
+            for(String st : str){
+                System.out.println(st + "sid");
+                Image img;
+                img = ImageIO.read(new FileInputStream(st));
+                float ratio = img.getWidth(null)/img.getHeight(null);
+                img  = img.getScaledInstance(140, (int) (140/ratio), Image.SCALE_DEFAULT);
+                ImageIcon icon1=new ImageIcon(img);
+                //        i++;
+                JLabel tmp = new JLabel();
+                tmp.setIcon(icon1);
+                tmp.setSize(new Dimension(150,100));
+                tmp.setLocation(j*200+10, i*170+10);
+                jPanel1.add(tmp);
+                if((j+2)*110>width){
                     i++;
-                    Image img;
-                    img = ImageIO.read(new FileInputStream(s));
-                    float ratio = img.getWidth(null)/img.getHeight(null);
-                    img  = img.getScaledInstance(140, (int) (140/ratio), Image.SCALE_DEFAULT);
-                    ImageIcon icon1=new ImageIcon(img);
-                    lab2[i] = new JLabel();
-                    lab2[i].setIcon(icon1);
-                    lab2[i].setSize(new Dimension(150,100));
-                    lab2[i].setLocation(0, i*110);
-                    jPanel1.add(lab2[i]);
-                    i++;
-                    if(i>=50)
-                    break;
+                    j=0;
+                }else{
+                    j++;
                 }
             }
-        }catch (Exception ex){
+        }catch (IOException ex){
             System.err.println(ex);
         }
 
@@ -184,7 +192,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        ParentPanel.setBackground(new java.awt.Color(204, 0, 204));
+        ToolBarPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
         captureButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -260,11 +268,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGap(0, 44, Short.MAX_VALUE)
         );
 
-        MiddlePanel.setBackground(new java.awt.Color(255, 102, 51));
-
-        ImageContainerPanel.setBackground(new java.awt.Color(51, 51, 255));
-
-        ImageLabel.setBackground(new java.awt.Color(204, 255, 51));
+        ImageLabel.setBackground(new java.awt.Color(255, 255, 255));
         ImageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         ImageLabel.setMaximumSize(new java.awt.Dimension(400, 400));
         ImageLabel.setMinimumSize(new java.awt.Dimension(200, 200));
@@ -275,7 +279,7 @@ public class MainFrame extends javax.swing.JFrame {
             ImageContainerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ImageContainerPanelLayout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addComponent(ImageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)
+                .addComponent(ImageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)
                 .addGap(29, 29, 29))
         );
         ImageContainerPanelLayout.setVerticalGroup(
@@ -303,7 +307,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        LastPanel.setBackground(new java.awt.Color(0, 204, 204));
+        LastPanel.setBackground(new java.awt.Color(255, 255, 255));
 
         CheckGalleryButton.setText("Check Out Gallery");
         CheckGalleryButton.addActionListener(new java.awt.event.ActionListener() {
@@ -514,15 +518,12 @@ public class MainFrame extends javax.swing.JFrame {
     private void cropActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cropActionPerformed
         // TODO add your handling code here:
         String name = this.screenShot.getLastName();
-        try{
-            Image img = this.screenShot.getScreenShot(name);
-            cropImageLabel.setIcon(new ImageIcon(img));
-        }catch(Exception e){
-            System.out.println(e);
-        }
-        dragCrop.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        dragCrop.setLocationRelativeTo(null); // this method display the JFrame to center position of a screen                
-        dragCrop.setVisible(true);
+        Sketch.cropFunction(name);
+        this.screenShot.setLastScreenShotName("cropped"+name);
+//        this.drawScreenShot();
+//        dragCrop.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//        dragCrop.setLocationRelativeTo(null); // this method display the JFrame to center position of a screen                
+//        dragCrop.setVisible(true);
     }//GEN-LAST:event_cropActionPerformed
 
     // Close JFrame from exit button
@@ -580,7 +581,12 @@ public class MainFrame extends javax.swing.JFrame {
                 Image img;
                 img = ImageIO.read(new FileInputStream(st));
                 float ratio = img.getWidth(null)/img.getHeight(null);
-                img  = img.getScaledInstance(140, (int) (140/ratio), Image.SCALE_DEFAULT);
+                if((140/ratio) <=0){
+                    ratio = img.getHeight(null)/img.getWidth(null);
+                    img  = img.getScaledInstance((int) (140/ratio), (int) (140), Image.SCALE_DEFAULT);
+                }else{
+                    img  = img.getScaledInstance(140, (int) (140/ratio), Image.SCALE_DEFAULT);
+                }
                 ImageIcon icon1=new ImageIcon(img);
                 JLabel tmp = new JLabel();
                 tmp.setIcon(icon1);
